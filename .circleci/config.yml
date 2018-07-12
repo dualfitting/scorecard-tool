@@ -31,13 +31,13 @@ jobs:
   deploy_prod:
     <<: *defaults
     steps:
-      <<: *pre_deploy_setup
+      - *pre_deploy_setup
       - run: .deploy/ebs_deploy.sh scorecard-tool PROD $CIRCLE_BUILD_NUM
 
   deploy_dev:
     <<: *defaults
     steps:
-      <<: *pre_deploy_setup
+      - *pre_deploy_setup
       - run: .deploy/ebs_deploy.sh scorecard-tool DEV $CIRCLE_BUILD_NUM
 
 workflows:
