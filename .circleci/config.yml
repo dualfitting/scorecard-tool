@@ -1,15 +1,17 @@
 version: 2
 defaults: &defaults
   machine: true
+
 install_awscli: &install_awscli
   name: "Install awscli"
   command: |
     sudo pip install awscli awsebcli
     aws --version
     eb --version
+  
 
 jobs:
-  build1:
+  build:
     <<: *defaults
     steps:
       - checkout
@@ -31,16 +33,16 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build1
+      - build
       - deploy_dev:
           filters:
             branches:
               only: dev
           requires:
-            - build1
+            - build
       - deploy_prod:
           filters:
             branches:
               only: master
           requires:
-            - build1
+            - build
