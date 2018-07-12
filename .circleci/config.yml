@@ -5,7 +5,7 @@ defaults: &defaults
 install_awscli: &install_awscli
   name: "Install awscli"
   command: |
-    sudo pip install awscli awsebcli
+    sudo pip install awscli awsebcli colorama==0.3.9
     aws --version
     eb --version
   
