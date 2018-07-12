@@ -11,6 +11,7 @@ install_awscli: &install_awscli
     eb --version
   
 deploy_steps: &deploy_steps
+  - run: echo "DEPLOY_ENV=$DEPLOY_ENV"
   - checkout
   - attach_workspace:
       at: .
