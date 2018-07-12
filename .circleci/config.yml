@@ -1,12 +1,10 @@
 version: 2
 defaults: &defaults
   docker:
-    - image: circleci/buildpack-deps:18.04-scm-browsers
+    - image: circleci/python:2.7-stretch-browsers
 install_awscli: &install_awscli
   name: "Install awscli"
   command: |
-    sudo apt-get update
-    sudo apt-get install python-pip
     sudo pip install awscli awsebcli
     aws --version
     eb --version
