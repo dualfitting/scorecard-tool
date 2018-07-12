@@ -1,5 +1,5 @@
 version: 2
-defaults: &defaults
+python_env: &python_env
   docker:
     - image: circleci/python:2.7-stretch-browsers
 
@@ -31,13 +31,13 @@ jobs:
             - scorecard.war
 
   deploy_prod:
-    <<: *defaults
+    <<: *python_env
     environment:
       DEPLOY_ENV: "PROD"
     steps: *deploy_steps
      
   deploy_dev:
-    <<: *defaults
+    <<: *python_env
     environment:
       DEPLOY_ENV: "DEV"
     steps: *deploy_steps
