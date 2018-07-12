@@ -6,7 +6,7 @@ install_awscli: &install_awscli
   name: "Install awscli"
   command: |
     sudo pip install --upgrade pip
-    sudo pip install awscli awsebcl
+    sudo pip install awscli awsebcli
     aws --version
     eb --version
   
