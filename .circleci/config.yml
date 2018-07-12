@@ -1,11 +1,11 @@
 version: 2
 defaults: &defaults
-  machine: true
+  docker:
+    - image: circleci/python:2.7-stretch-browsers
 
 install_awscli: &install_awscli
   name: "Install awscli"
   command: |
-    sudo pip install --upgrade pip
     sudo pip install awscli awsebcli
     aws --version
     eb --version
@@ -13,7 +13,7 @@ install_awscli: &install_awscli
 
 jobs:
   build:
-    <<: *defaults
+    machine: true
     steps:
       - checkout
       - run: 'docker run --rm -ti -v $PWD:/app onesysadmin/grails:1.3 grails war scorecard.war'
