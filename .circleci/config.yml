@@ -10,12 +10,14 @@ install_awscli: &install_awscli
     aws --version
     eb --version
   
-pre_deploy_setup: &pre_deploy_setup
+deploy_steps: &deploy_steps
   - checkout
   - attach_workspace:
       at: .
   - run: *install_awscli
   - setup_remote_docker
+  - run: .deploy/ebs_deploy.sh scorecard-tool $DEPLOY_ENV $CIRCLE_BUILD_NUM
+
 
 jobs:
   build:
@@ -30,15 +32,15 @@ jobs:
 
   deploy_prod:
     <<: *defaults
-    steps:
-      - *pre_deploy_setup
-      - run: .deploy/ebs_deploy.sh scorecard-tool PROD $CIRCLE_BUILD_NUM
-
+    environment:
+      DEPLOY_ENV: "PROD"
+    steps: *deploy_steps
+     
   deploy_dev:
     <<: *defaults
-    steps:
-      - *pre_deploy_setup
-      - run: .deploy/ebs_deploy.sh scorecard-tool DEV $CIRCLE_BUILD_NUM
+    environment:
+      DEPLOY_ENV: "DEV"
+    steps: *deploy_steps
 
 workflows:
   version: 2
