@@ -10,6 +10,12 @@ install_awscli: &install_awscli
     aws --version
     eb --version
   
+pre_deploy_setup: &pre_deploy_setup
+  - checkout
+  - attach_workspace:
+      at: .
+  - run: *install_awscli
+  - setup_remote_docker
 
 jobs:
   build:
@@ -17,21 +23,21 @@ jobs:
     steps:
       - checkout
       - run: 'docker run --rm -ti -v $PWD:/app onesysadmin/grails:1.3 grails war scorecard.war'
+      - persist_to_workspace:
+          root: .
+          paths:
+            - scorecard.war
 
   deploy_prod:
     <<: *defaults
     steps:
-      - checkout
-      - run: *install_awscli
-      - setup_remote_docker
+      <<: *pre_deploy_setup
       - run: .deploy/ebs_deploy.sh scorecard-tool PROD $CIRCLE_BUILD_NUM
 
   deploy_dev:
     <<: *defaults
     steps:
-      - checkout
-      - run: *install_awscli
-      - setup_remote_docker
+      <<: *pre_deploy_setup
       - run: .deploy/ebs_deploy.sh scorecard-tool DEV $CIRCLE_BUILD_NUM
 
 workflows:
