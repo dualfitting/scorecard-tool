@@ -23,6 +23,7 @@ jobs:
     steps:
       - checkout
       - run: *install_awscli
+      - setup_remote_docker
       - run: .deploy/ebs_deploy.sh scorecard-tool PROD $CIRCLE_BUILD_NUM
 
   deploy_dev:
@@ -30,6 +31,7 @@ jobs:
     steps:
       - checkout
       - run: *install_awscli
+      - setup_remote_docker
       - run: .deploy/ebs_deploy.sh scorecard-tool DEV $CIRCLE_BUILD_NUM
 
 workflows:
