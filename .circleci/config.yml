@@ -10,7 +10,7 @@ install_awscli: &install_awscli
     eb --version
 
 jobs:
-  build:
+  build1:
     <<: *defaults
     steps:
       - checkout
@@ -36,16 +36,16 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - build1
       - deploy_dev:
           filters:
             branches:
               only: dev
           requires:
-            - build
+            - build1
       - deploy_prod:
           filters:
             branches:
               only: master
           requires:
-            - build
+            - build1
